@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FL-Project | Inference</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:       #0d0f14;
+      --surface:  #161a22;
+      --surface2: #1e2431;
+      --border:   #2a3040;
+      --accent:   #3b82f6;
+      --accent2:  #06b6d4;
+      --green:    #22c55e;
+      --orange:   #f59e0b;
+      --red:      #ef4444;
+      --text:     #e2e8f0;
+      --muted:    #64748b;
+      --radius:   14px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+    /* ── Nav ── */
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 32px; height: 60px;
+      background: var(--surface); border-bottom: 1px solid var(--border);
+    }
+    .nav-brand { font-size: 1.1rem; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+    .nav-brand span.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+    .nav-links a {
+      padding: 7px 16px; border-radius: 8px; text-decoration: none;
+      color: var(--muted); font-size: .875rem; font-weight: 500; transition: all .2s;
+      margin-left: 4px;
+    }
+    .nav-links a:hover, .nav-links a.active { background: var(--surface2); color: var(--text); }
+
+    /* ── Layout ── */
+    .page { max-width: 1000px; margin: 0 auto; padding: 40px 24px; }
+
+    .page-header { text-align: center; margin-bottom: 40px; }
+    .page-header h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+    .page-header p { color: var(--muted); font-size: .95rem; }
+
+    /* ── Upload Zone ── */
+    .upload-area {
+      border: 2px dashed var(--border); border-radius: var(--radius);
+      padding: 48px 24px; text-align: center; cursor: pointer;
+      transition: border-color .3s, background .3s; position: relative;
+      background: var(--surface);
+    }
+    .upload-area:hover, .upload-area.drag-over {
+      border-color: var(--accent);
+      background: rgba(59,130,246,.05);
+    }
+    .upload-area input[type=file] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+    }
+    .upload-icon { font-size: 3rem; margin-bottom: 14px; opacity: .6; }
+    .upload-text { font-size: .95rem; font-weight: 500; margin-bottom: 6px; }
+    .upload-sub  { font-size: .8rem; color: var(--muted); }
+
+    /* ── Two-column result layout ── */
+    .result-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 28px;
+    }
+    @media (max-width: 700px) { .result-grid { grid-template-columns: 1fr; } }
+
+    /* Image preview card */
+    .preview-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+    }
+    .preview-label {
+      padding: 12px 16px; font-size: .75rem; font-weight: 600; color: var(--muted);
+      text-transform: uppercase; letter-spacing: .07em;
+      border-bottom: 1px solid var(--border);
+    }
+    .preview-img-wrap {
+      display: flex; align-items: center; justify-content: center;
+      min-height: 240px; padding: 16px; background: #0a0c10;
+    }
+    #previewImg { max-width: 100%; max-height: 280px; border-radius: 8px;
+      object-fit: contain; display: none; }
+    .no-preview { color: var(--muted); font-size: .85rem; }
+
+    /* Result card */
+    .result-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); display: flex; flex-direction: column;
+    }
+    .result-label {
+      padding: 12px 16px; font-size: .75rem; font-weight: 600; color: var(--muted);
+      text-transform: uppercase; letter-spacing: .07em;
+      border-bottom: 1px solid var(--border);
+    }
+    .result-body { padding: 20px; flex: 1; }
+
+    /* Prediction badge */
+    .pred-badge {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 10px 18px; border-radius: 100px; font-size: 1rem; font-weight: 700;
+      margin-bottom: 20px; text-transform: capitalize;
+    }
+    .pred-badge.normal    { background: rgba(34,197,94,.15);  color: #22c55e; }
+    .pred-badge.benign    { background: rgba(59,130,246,.15); color: #3b82f6; }
+    .pred-badge.malignant { background: rgba(239,68,68,.15);  color: #ef4444; }
+    .pred-badge .emoji { font-size: 1.3rem; }
+
+    /* Confidence bars */
+    .conf-bars { display: flex; flex-direction: column; gap: 12px; }
+    .conf-row { display: flex; flex-direction: column; gap: 4px; }
+    .conf-header { display: flex; justify-content: space-between; align-items: center; }
+    .conf-name { font-size: .82rem; font-weight: 500; text-transform: capitalize; }
+    .conf-pct  { font-size: .82rem; font-variant-numeric: tabular-nums;
+      font-family: 'JetBrains Mono', monospace; }
+    .conf-bar-bg { height: 8px; background: var(--surface2); border-radius: 4px; overflow: hidden; }
+    .conf-bar-fill {
+      height: 100%; border-radius: 4px; width: 0%;
+      transition: width .8s cubic-bezier(.4,0,.2,1);
+    }
+    .conf-bar-fill.normal    { background: linear-gradient(90deg,#22c55e,#16a34a); }
+    .conf-bar-fill.benign    { background: linear-gradient(90deg,#3b82f6,#2563eb); }
+    .conf-bar-fill.malignant { background: linear-gradient(90deg,#ef4444,#dc2626); }
+
+    /* Disclaimer */
+    .disclaimer {
+      margin-top: 14px; padding: 12px 14px; border-radius: 8px;
+      background: rgba(245,158,11,.08); border: 1px solid rgba(245,158,11,.2);
+      color: #f59e0b; font-size: .75rem; line-height: 1.5;
+    }
+
+    /* Buttons */
+    .btn {
+      padding: 10px 22px; border-radius: 8px; border: none; cursor: pointer;
+      font-size: .875rem; font-weight: 600; font-family: inherit; transition: all .2s;
+    }
+    .btn-primary {
+      background: var(--accent); color: #fff;
+    }
+    .btn-primary:hover { background: #2563eb; transform: translateY(-1px); }
+    .btn-primary:disabled { background: var(--surface2); color: var(--muted); cursor: not-allowed; transform: none; }
+    .btn-ghost { background: var(--surface2); color: var(--text); }
+    .btn-ghost:hover { background: var(--border); }
+
+    .action-row { display: flex; gap: 10px; margin-top: 20px; justify-content: center; }
+
+    /* Spinner */
+    .spinner {
+      display: inline-block; width: 18px; height: 18px;
+      border: 2px solid rgba(255,255,255,.3);
+      border-top-color: #fff; border-radius: 50%;
+      animation: spin .7s linear infinite;
+      vertical-align: middle; margin-right: 6px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Idle result state */
+    .idle-result {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      height: 100%; min-height: 200px; gap: 10px; color: var(--muted); text-align: center;
+    }
+    .idle-result .icon { font-size: 2.5rem; opacity: .4; }
+    .idle-result p { font-size: .85rem; }
+
+    /* Error state */
+    .error-box {
+      padding: 14px; background: rgba(239,68,68,.1); border: 1px solid rgba(239,68,68,.3);
+      border-radius: 8px; color: #ef4444; font-size: .85rem; margin-top: 12px;
+    }
+  </style>
+</head>
+<body data-classes='{{ classes | tojson }}'>
+
+<!-- Nav -->
+<nav>
+  <div class="nav-brand">
+    <span class="dot"></span>
+    FL-Project · DiagnosisNet
+  </div>
+  <div class="nav-links">
+    <a href="/">📊 Dashboard</a>
+    <a href="/inference" class="active">🔬 Inference</a>
+  </div>
+</nav>
+
+<!-- Page -->
+<div class="page">
+
+  <div class="page-header">
+    <h1>🩺 Breast Ultrasound Diagnosis</h1>
+    <p>Upload a breast ultrasound image — DiagnosisNet will classify it as
+       <strong>Normal</strong>, <strong>Benign</strong>, or <strong>Malignant</strong>.</p>
+  </div>
+
+  <!-- Upload Zone -->
+  <div class="upload-area" id="dropZone">
+    <input type="file" id="fileInput" accept="image/*" />
+    <div class="upload-icon">🖼️</div>
+    <div class="upload-text">Drop your image here, or click to browse</div>
+    <div class="upload-sub">PNG, JPG, BMP supported</div>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="action-row">
+    <button class="btn btn-primary" id="predictBtn" disabled>
+      Run Diagnosis
+    </button>
+    <button class="btn btn-ghost" id="clearBtn">Clear</button>
+  </div>
+
+  <!-- Results -->
+  <div class="result-grid" id="resultGrid" style="display:none">
+
+    <!-- Image Preview -->
+    <div class="preview-card">
+      <div class="preview-label">📷 Uploaded Image</div>
+      <div class="preview-img-wrap">
+        <img id="previewImg" alt="Uploaded ultrasound" />
+        <span class="no-preview" id="noPreview">No image selected</span>
+      </div>
+    </div>
+
+    <!-- Prediction Result -->
+    <div class="result-card">
+      <div class="result-label">🧠 DiagnosisNet Output</div>
+      <div class="result-body" id="resultBody">
+        <div class="idle-result">
+          <div class="icon">💡</div>
+          <p>Upload an image and click<br/><strong>Run Diagnosis</strong></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+<script>
+const LABEL_CLASSES = JSON.parse(document.body.dataset.classes);
+const CLASS_EMOJIS  = { normal: '✅', benign: '🟡', malignant: '🔴' };
+
+const dropZone   = document.getElementById('dropZone');
+const fileInput  = document.getElementById('fileInput');
+const predictBtn = document.getElementById('predictBtn');
+const clearBtn   = document.getElementById('clearBtn');
+const resultGrid = document.getElementById('resultGrid');
+const previewImg = document.getElementById('previewImg');
+const noPreview  = document.getElementById('noPreview');
+const resultBody = document.getElementById('resultBody');
+
+let selectedFile = null;
+
+// ── File Selection ───────────────────────────────────────────
+function onFileSelected(file) {
+  if (!file || !file.type.startsWith('image/')) return;
+  selectedFile = file;
+  const url = URL.createObjectURL(file);
+  previewImg.src = url;
+  previewImg.style.display = 'block';
+  noPreview.style.display  = 'none';
+  resultGrid.style.display = 'grid';
+  predictBtn.disabled = false;
+  resultBody.innerHTML = `
+    <div class="idle-result">
+      <div class="icon">💡</div>
+      <p>Click <strong>Run Diagnosis</strong> to analyse this image</p>
+    </div>`;
+}
+
+fileInput.addEventListener('change', e => {
+  if (e.target.files[0]) onFileSelected(e.target.files[0]);
+});
+
+// Drag & Drop
+dropZone.addEventListener('dragover',  e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+dropZone.addEventListener('dragleave', ()  => dropZone.classList.remove('drag-over'));
+dropZone.addEventListener('drop',      e => {
+  e.preventDefault(); dropZone.classList.remove('drag-over');
+  const f = e.dataTransfer.files[0];
+  if (f) { fileInput.files = e.dataTransfer.files; onFileSelected(f); }
+});
+
+// ── Clear ─────────────────────────────────────────────────────
+clearBtn.addEventListener('click', () => {
+  selectedFile = null;
+  fileInput.value = '';
+  previewImg.src = ''; previewImg.style.display = 'none';
+  noPreview.style.display = '';
+  predictBtn.disabled = true;
+  resultGrid.style.display = 'none';
+});
+
+// ── Predict ───────────────────────────────────────────────────
+predictBtn.addEventListener('click', async () => {
+  if (!selectedFile) return;
+
+  predictBtn.disabled = true;
+  predictBtn.innerHTML = '<span class="spinner"></span>Analysing…';
+  resultBody.innerHTML = `
+    <div class="idle-result">
+      <div style="font-size:2rem;animation:spin .7s linear infinite;display:inline-block">⚙️</div>
+      <p>Running DiagnosisNet…</p>
+    </div>`;
+
+  try {
+    const form = new FormData();
+    form.append('image', selectedFile);
+    const res = await fetch('/api/predict', { method:'POST', body: form });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ description: 'Unknown error' }));
+      throw new Error(err.description || `HTTP ${res.status}`);
+    }
+    const data = await res.json();
+    renderResult(data);
+  } catch (err) {
+    resultBody.innerHTML = `<div class="error-box">❌ Error: ${err.message}</div>`;
+  } finally {
+    predictBtn.disabled = false;
+    predictBtn.innerHTML = 'Run Diagnosis';
+  }
+});
+
+function renderResult(data) {
+  const pred  = data.prediction;
+  const conf  = data.confidence;
+  const probs = data.probabilities;
+
+  const barsHtml = LABEL_CLASSES.map(cls => `
+    <div class="conf-row">
+      <div class="conf-header">
+        <span class="conf-name">${cls}</span>
+        <span class="conf-pct">${probs[cls].toFixed(1)}%</span>
+      </div>
+      <div class="conf-bar-bg">
+        <div class="conf-bar-fill ${cls}" id="bar_${cls}" style="width:0%"></div>
+      </div>
+    </div>
+  `).join('');
+
+  resultBody.innerHTML = `
+    <div class="pred-badge ${pred}">
+      <span class="emoji">${CLASS_EMOJIS[pred] || '🔍'}</span>
+      ${pred.charAt(0).toUpperCase() + pred.slice(1)}
+    </div>
+    <div style="font-size:.75rem;color:var(--muted);margin-bottom:16px;font-family:'JetBrains Mono',monospace;">
+      Confidence: ${conf.toFixed(1)}%
+    </div>
+    <div class="conf-bars">${barsHtml}</div>
+    <div class="disclaimer">
+      ⚠️ This is a research demonstration only and must NOT be used for
+      clinical diagnosis. Always consult a qualified medical professional.
+    </div>`;
+
+  requestAnimationFrame(() => {
+    LABEL_CLASSES.forEach(cls => {
+      const el = document.getElementById(`bar_${cls}`);
+      if (el) el.style.width = probs[cls].toFixed(1) + '%';
+    });
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+# ===============================
+# Python
+# ===============================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Compiled files
+*.so
+*.pyd
+*.pyo
+
+# ===============================
+# Virtual Environments
+# ===============================
+venv/
+env/
+ENV/
+.venv/
+
+# ===============================
+# Environment Variables
+# ===============================
+.env
+.env.*
+
+# ===============================
+# Logs / Run Outputs
+# ===============================
+*.log
+*.out
+run*.txt
+logs/
+
+# ===============================
+# Dataset / Large Files
+# ===============================
+data/
+datasets/
+*.csv
+*.tsv
+*.jsonl
+
+# (remove above lines if dataset must be tracked)
+
+# ===============================
+# Model Artifacts
+# ===============================
+checkpoints/
+models/
+*.pt
+*.pth
+*.ckpt
+*.h5
+
+# ===============================
+# Experiment Tracking
+# ===============================
+wandb/
+mlruns/
+tensorboard/
+runs/
+
+# ===============================
+# System Files
+# ===============================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ===============================
+# IDE / Editor
+# ===============================
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ===============================
+# Build / Distribution
+# ===============================
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# ===============================
+# Jupyter
+# ===============================
+.ipynb_checkpoints/
+
+# ===============================
+# Claude / AI tooling (optional)
+# ===============================
+.claude/cache/
+.claude/tmp/
+
+# ===============================
+# Temporary files
+# ===============================
+tmp/
+temp/
+*.tmp

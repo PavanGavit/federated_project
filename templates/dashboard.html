@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FL-Project | Training Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg:         #0d0f14;
+      --surface:    #161a22;
+      --surface2:   #1e2431;
+      --border:     #2a3040;
+      --accent:     #3b82f6;
+      --accent2:    #06b6d4;
+      --green:      #22c55e;
+      --orange:     #f59e0b;
+      --red:        #ef4444;
+      --text:       #e2e8f0;
+      --muted:      #64748b;
+      --radius:     12px;
+      --client-colors: #3b82f6, #06b6d4, #8b5cf6, #f59e0b, #ec4899;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 15px; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── Top Nav ── */
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 32px; height: 60px;
+      background: var(--surface); border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .nav-brand { font-size: 1.1rem; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+    .nav-brand span.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); display: inline-block; }
+    .nav-links { display: flex; gap: 6px; }
+    .nav-links a {
+      padding: 7px 16px; border-radius: 8px; text-decoration: none;
+      color: var(--muted); font-size: 0.875rem; font-weight: 500;
+      transition: all .2s;
+    }
+    .nav-links a:hover, .nav-links a.active { background: var(--surface2); color: var(--text); }
+
+    /* ── Main Layout ── */
+    .main { max-width: 1400px; margin: 0 auto; padding: 28px 24px; }
+
+    /* ── Status Banner ── */
+    .status-banner {
+      display: flex; align-items: center; justify-content: space-between;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 18px 24px; margin-bottom: 24px;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .status-left { display: flex; align-items: center; gap: 16px; }
+    .status-pill {
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: .06em;
+    }
+    .status-pill.idle     { background: #1e2431; color: var(--muted); }
+    .status-pill.training { background: rgba(59,130,246,.15); color: var(--accent); }
+    .status-pill.complete { background: rgba(34,197,94,.15); color: var(--green); }
+    .pulse {
+      width: 8px; height: 8px; border-radius: 50%; background: currentColor;
+      animation: pulse 1.4s ease-in-out infinite;
+    }
+    .status-pill.training .pulse { animation: pulse 1.4s ease-in-out infinite; }
+    .status-pill.complete .pulse { animation: none; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
+
+    .status-meta { font-size: 0.82rem; color: var(--muted); }
+    .status-meta span { color: var(--text); font-weight: 500; }
+
+    /* Progress bar */
+    .progress-wrap { flex: 1; min-width: 240px; max-width: 360px; }
+    .progress-label { display: flex; justify-content: space-between;
+      font-size: 0.75rem; color: var(--muted); margin-bottom: 6px; }
+    .progress-bar {
+      height: 6px; background: var(--surface2); border-radius: 3px; overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; border-radius: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transition: width .6s ease;
+    }
+
+    /* ── Stat Cards ── */
+    .stat-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+      gap: 16px; margin-bottom: 24px;
+    }
+    .stat-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px 22px;
+      transition: border-color .2s;
+    }
+    .stat-card:hover { border-color: var(--accent); }
+    .stat-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase;
+      letter-spacing: .08em; margin-bottom: 8px; }
+    .stat-value { font-size: 1.75rem; font-weight: 700; line-height: 1;
+      font-variant-numeric: tabular-nums; }
+    .stat-value.accent  { color: var(--accent); }
+    .stat-value.green   { color: var(--green); }
+    .stat-value.orange  { color: var(--orange); }
+    .stat-sub { font-size: 0.75rem; color: var(--muted); margin-top: 6px; }
+
+    /* ── Chart Row ── */
+    .chart-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;
+    }
+    @media (max-width: 860px) { .chart-row { grid-template-columns: 1fr; } }
+    .chart-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px 22px;
+    }
+    .chart-title {
+      font-size: 0.85rem; font-weight: 600; color: var(--text);
+      margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+    }
+    .chart-title .badge {
+      font-size: 0.68rem; background: var(--surface2); color: var(--muted);
+      padding: 2px 8px; border-radius: 10px; font-weight: 500;
+    }
+    .chart-wrap { position: relative; height: 220px; }
+
+    /* ── Client Cards ── */
+    .section-title {
+      font-size: 0.82rem; font-weight: 700; color: var(--muted);
+      text-transform: uppercase; letter-spacing: .08em; margin-bottom: 14px;
+    }
+    .client-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr));
+      gap: 14px; margin-bottom: 24px;
+    }
+    .client-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 18px 20px;
+      border-top: 3px solid transparent; transition: border-color .3s;
+    }
+    .client-card[data-cid="0"] { border-top-color: #3b82f6; }
+    .client-card[data-cid="1"] { border-top-color: #06b6d4; }
+    .client-card[data-cid="2"] { border-top-color: #8b5cf6; }
+    .client-card[data-cid="3"] { border-top-color: #f59e0b; }
+    .client-card[data-cid="4"] { border-top-color: #ec4899; }
+    .client-header { display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 12px; }
+    .client-name { font-size: 0.9rem; font-weight: 600; }
+    .client-badge {
+      font-size: 0.68rem; font-family: 'JetBrains Mono', monospace;
+      background: var(--surface2); color: var(--muted);
+      padding: 2px 8px; border-radius: 6px;
+    }
+    .client-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+      margin-bottom: 12px; }
+    .cm-label { font-size: 0.68rem; color: var(--muted); margin-bottom: 3px; }
+    .cm-val { font-size: 1.25rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .cm-val.loss-val { color: var(--orange); }
+    .cm-val.acc-val  { color: var(--green); }
+
+    /* Mini epoch chart inside each client card */
+    .epoch-bars { display: flex; align-items: flex-end; gap: 3px; height: 36px; }
+    .epoch-bar {
+      flex: 1; border-radius: 2px 2px 0 0;
+      background: var(--surface2); min-width: 4px;
+      transition: height .4s ease, background .3s;
+    }
+    .epoch-bar.active { background: var(--accent); }
+
+    /* ── Rounds Table ── */
+    .table-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden; margin-bottom: 24px;
+    }
+    .table-card table { width: 100%; border-collapse: collapse; }
+    .table-card thead th {
+      padding: 12px 16px; text-align: left; font-size: 0.72rem; font-weight: 600;
+      color: var(--muted); text-transform: uppercase; letter-spacing: .07em;
+      background: var(--surface2); border-bottom: 1px solid var(--border);
+    }
+    .table-card tbody tr { border-bottom: 1px solid var(--border); transition: background .15s; }
+    .table-card tbody tr:last-child { border-bottom: none; }
+    .table-card tbody tr:hover { background: var(--surface2); }
+    .table-card td { padding: 11px 16px; font-size: 0.82rem; font-variant-numeric: tabular-nums; }
+    .td-round { font-weight: 600; color: var(--accent); }
+    .td-loss  { color: var(--orange); }
+    .td-acc   { color: var(--green);  font-weight: 600; }
+    .td-muted { color: var(--muted); font-size: 0.75rem; }
+
+    /* ── Empty state ── */
+    .empty-state {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 60px 20px; gap: 14px; color: var(--muted);
+    }
+    .empty-state .icon { font-size: 3rem; opacity: .4; }
+    .empty-state p { font-size: 0.9rem; }
+
+    /* ── Refresh badge ── */
+    .refresh-indicator {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 0.72rem; color: var(--muted);
+    }
+    .refresh-dot {
+      width: 6px; height: 6px; border-radius: 50%; background: var(--green);
+      animation: blink 2s steps(1) infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+  </style>
+</head>
+<body data-num-rounds="{{ num_rounds }}" data-num-clients="{{ num_clients }}">
+
+<!-- ── Nav ── -->
+<nav>
+  <div class="nav-brand">
+    <span class="dot"></span>
+    <span>FL-Project · DiagnosisNet</span>
+  </div>
+  <div class="nav-links">
+    <a href="/" class="active">📊 Dashboard</a>
+    <a href="/inference">🔬 Inference</a>
+  </div>
+  <div class="refresh-indicator">
+    <span class="refresh-dot"></span>
+    <span>Live · updates every 2 s</span>
+  </div>
+</nav>
+
+<!-- ── Main ── -->
+<div class="main">
+
+  <!-- Status Banner -->
+  <div class="status-banner" id="statusBanner">
+    <div class="status-left">
+      <div class="status-pill idle" id="statusPill">
+        <span class="pulse"></span>
+        <span id="statusText">Idle</span>
+      </div>
+      <div class="status-meta">
+        Distribution&nbsp;<span id="distLabel">—</span>
+        &nbsp;·&nbsp; Clients&nbsp;<span>{{ num_clients }}</span>
+        &nbsp;·&nbsp; Rounds&nbsp;<span>{{ num_rounds }}</span>
+      </div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <span>Round Progress</span>
+        <span id="progressLabel">0 / {{ num_rounds }}</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill" style="width:0%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stat Cards -->
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="stat-label">Current Round</div>
+      <div class="stat-value accent" id="curRound">—</div>
+      <div class="stat-sub">of {{ num_rounds }} total</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Global Accuracy (latest)</div>
+      <div class="stat-value green" id="globalAcc">—</div>
+      <div class="stat-sub">FedAvg global model</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Global Loss (latest)</div>
+      <div class="stat-value orange" id="globalLoss">—</div>
+      <div class="stat-sub">server-side eval</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Best Accuracy</div>
+      <div class="stat-value accent" id="bestAcc">—</div>
+      <div class="stat-sub">across all rounds</div>
+    </div>
+  </div>
+
+  <!-- Charts -->
+  <div class="chart-row">
+    <div class="chart-card">
+      <div class="chart-title">
+        Global Model Accuracy
+        <span class="badge">per round</span>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="accChart"></canvas>
+      </div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">
+        Global Model Loss
+        <span class="badge">per round</span>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="lossChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Per-Client Live Cards -->
+  <div class="section-title">Live Client Metrics — Round {{ num_clients }} Institutions</div>
+  <div class="client-grid" id="clientGrid">
+    {% for cid in range(num_clients) %}
+    <div class="client-card" data-cid="{{ cid }}" id="clientCard{{ cid }}">
+      <div class="client-header">
+        <span class="client-name">🏥 Hospital {{ cid }}</span>
+        <span class="client-badge">Client {{ cid }}</span>
+      </div>
+      <div class="client-metrics">
+        <div>
+          <div class="cm-label">Loss</div>
+          <div class="cm-val loss-val" id="cLoss{{ cid }}">—</div>
+        </div>
+        <div>
+          <div class="cm-label">Accuracy</div>
+          <div class="cm-val acc-val" id="cAcc{{ cid }}">—</div>
+        </div>
+      </div>
+      <div class="cm-label" style="margin-bottom:6px">Epoch progress (current round)</div>
+      <div class="epoch-bars" id="epochBars{{ cid }}">
+        <div class="epoch-bar" style="height:30%"></div>
+        <div class="epoch-bar" style="height:30%"></div>
+        <div class="epoch-bar" style="height:30%"></div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- All Rounds Table -->
+  <div class="section-title">Round-by-Round Summary</div>
+  <div class="table-card">
+    <table>
+      <thead>
+        <tr>
+          <th>Round</th>
+          <th>Global Loss</th>
+          <th>Global Acc</th>
+          <th>FedAvg Loss</th>
+          <th>FedAvg Acc</th>
+          {% for cid in range(num_clients) %}
+          <th>C{{ cid }} Acc</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody id="roundsTableBody">
+        <tr>
+          <td colspan="{{ num_clients + 5 }}" style="padding:0">
+            <div class="empty-state">
+              <div class="icon">⏳</div>
+              <p>Waiting for training to start …</p>
+              <p style="font-size:0.78rem">Run <code style="background:var(--surface2);padding:2px 6px;border-radius:4px">python train.py non_iid</code> to begin</p>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div><!-- /main -->
+
+<script>
+const NUM_ROUNDS  = parseInt(document.body.dataset.numRounds,  10);
+const NUM_CLIENTS = parseInt(document.body.dataset.numClients, 10);
+
+// ── Chart Config ──────────────────────────────────────────────
+const chartDefaults = {
+  responsive: true,
+  maintainAspectRatio: false,
+  animation: { duration: 500 },
+  plugins: { legend: { display: false } },
+  scales: {
+    x: { ticks: { color: '#64748b', font:{size:11} }, grid: { color: '#1e2431' } },
+    y: { ticks: { color: '#64748b', font:{size:11} }, grid: { color: '#1e2431' } },
+  },
+};
+
+const mkGrad = (ctx, c1, c2) => {
+  const g = ctx.createLinearGradient(0, 0, 0, 220);
+  g.addColorStop(0, c1); g.addColorStop(1, c2);
+  return g;
+};
+
+// Accuracy Chart
+const accCtx  = document.getElementById('accChart').getContext('2d');
+const accChart = new Chart(accCtx, {
+  type: 'line',
+  data: {
+    labels: [],
+    datasets: [
+      { label:'Global Eval', data:[], borderColor:'#22c55e', borderWidth:2,
+        backgroundColor: mkGrad(accCtx,'rgba(34,197,94,.25)','rgba(34,197,94,0)'),
+        fill:true, tension:.35, pointRadius:4, pointBackgroundColor:'#22c55e' },
+      { label:'FedAvg', data:[], borderColor:'#3b82f6', borderWidth:2,
+        backgroundColor:'transparent', tension:.35, pointRadius:4,
+        pointBackgroundColor:'#3b82f6', borderDash:[4,3] },
+    ],
+  },
+  options: { ...chartDefaults,
+    scales: { ...chartDefaults.scales,
+      y: { ...chartDefaults.scales.y, min:0, max:1,
+           ticks:{ ...chartDefaults.scales.y.ticks,
+                   callback: v => (v*100).toFixed(0)+'%' } }
+    },
+    plugins: { ...chartDefaults.plugins,
+      legend: { display:true, labels:{ color:'#94a3b8', font:{size:11} } } },
+  },
+});
+
+// Loss Chart
+const lossCtx  = document.getElementById('lossChart').getContext('2d');
+const lossChart = new Chart(lossCtx, {
+  type: 'line',
+  data: {
+    labels: [],
+    datasets: [
+      { label:'Global Eval', data:[], borderColor:'#f59e0b', borderWidth:2,
+        backgroundColor: mkGrad(lossCtx,'rgba(245,158,11,.25)','rgba(245,158,11,0)'),
+        fill:true, tension:.35, pointRadius:4, pointBackgroundColor:'#f59e0b' },
+      { label:'FedAvg', data:[], borderColor:'#ef4444', borderWidth:2,
+        backgroundColor:'transparent', tension:.35, pointRadius:4,
+        pointBackgroundColor:'#ef4444', borderDash:[4,3] },
+    ],
+  },
+  options: { ...chartDefaults,
+    plugins: { ...chartDefaults.plugins,
+      legend: { display:true, labels:{ color:'#94a3b8', font:{size:11} } } },
+  },
+});
+
+// ── State ──────────────────────────────────────────────────────
+let prevRounds = 0;
+let bestAcc    = 0;
+
+// ── Main Update Loop ───────────────────────────────────────────
+async function fetchAndUpdate() {
+  let data;
+  try {
+    const res = await fetch('/api/metrics');
+    if (!res.ok) return;
+    data = await res.json();
+  } catch { return; }
+
+  const rounds  = data.rounds || [];
+  const status  = data.status || 'idle';
+  const dist    = data.distribution || '—';
+
+  // Status pill
+  const pill = document.getElementById('statusPill');
+  const txt  = document.getElementById('statusText');
+  pill.className = `status-pill ${status}`;
+  txt.textContent = status.charAt(0).toUpperCase() + status.slice(1);
+  document.getElementById('distLabel').textContent = dist.toUpperCase().replace('_','-');
+
+  // Progress
+  const done = rounds.length;
+  const pct  = NUM_ROUNDS > 0 ? (done / NUM_ROUNDS * 100) : 0;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = `${done} / ${NUM_ROUNDS}`;
+  document.getElementById('curRound').textContent = done > 0 ? done : '—';
+
+  // Latest global metrics
+  const latest = rounds[rounds.length - 1];
+  if (latest) {
+    const ge = latest.global_eval;
+    const fe = latest.fedavg_eval;
+    document.getElementById('globalAcc').textContent  = ge ? (ge.accuracy*100).toFixed(2)+'%' : '—';
+    document.getElementById('globalLoss').textContent = ge ? ge.loss.toFixed(4) : '—';
+    if (ge && ge.accuracy > bestAcc) bestAcc = ge.accuracy;
+    document.getElementById('bestAcc').textContent = bestAcc > 0 ? (bestAcc*100).toFixed(2)+'%' : '—';
+  }
+
+  // Charts — rebuild from all rounds
+  const labels   = rounds.map(r => `R${r.round}`);
+  const gAccData = rounds.map(r => r.global_eval ? r.global_eval.accuracy : null);
+  const fAccData = rounds.map(r => r.fedavg_eval ? r.fedavg_eval.accuracy : null);
+  const gLosData = rounds.map(r => r.global_eval ? r.global_eval.loss     : null);
+  const fLosData = rounds.map(r => r.fedavg_eval ? r.fedavg_eval.loss     : null);
+
+  accChart.data.labels               = labels;
+  accChart.data.datasets[0].data     = gAccData;
+  accChart.data.datasets[1].data     = fAccData;
+  accChart.update('none');
+
+  lossChart.data.labels              = labels;
+  lossChart.data.datasets[0].data    = gLosData;
+  lossChart.data.datasets[1].data    = fLosData;
+  lossChart.update('none');
+
+  // Per-Client cards — use latest round's data
+  for (let cid = 0; cid < NUM_CLIENTS; cid++) {
+    const ckey = String(cid);
+    let lastLoss = null, lastAcc = null, epochs = [];
+
+    if (latest && latest.clients && latest.clients[ckey]) {
+      const cd = latest.clients[ckey];
+      lastLoss = cd.final_loss;
+      lastAcc  = cd.final_accuracy;
+      epochs   = cd.epochs || [];
+    }
+
+    document.getElementById(`cLoss${cid}`).textContent =
+      lastLoss !== null ? lastLoss.toFixed(4) : '—';
+    document.getElementById(`cAcc${cid}`).textContent =
+      lastAcc  !== null ? (lastAcc*100).toFixed(2)+'%' : '—';
+
+    // Epoch mini-bars
+    const barsEl = document.getElementById(`epochBars${cid}`);
+    if (epochs.length > 0) {
+      const maxLoss = Math.max(...epochs.map(e=>e.loss), 0.0001);
+      barsEl.innerHTML = epochs.map((ep, i) => {
+        const h = Math.max(12, Math.round((ep.loss / maxLoss) * 100));
+        const active = i === epochs.length - 1 ? 'active' : '';
+        return `<div class="epoch-bar ${active}" style="height:${h}%" title="Epoch ${ep.epoch} Loss ${ep.loss.toFixed(4)}"></div>`;
+      }).join('');
+    }
+  }
+
+  // Rounds Table
+  if (rounds.length !== prevRounds) {
+    prevRounds = rounds.length;
+    const tbody = document.getElementById('roundsTableBody');
+    if (rounds.length === 0) {
+      tbody.innerHTML = `
+        <tr><td colspan="${NUM_CLIENTS + 5}" style="padding:0">
+          <div class="empty-state">
+            <div class="icon">⏳</div>
+            <p>Waiting for training to start …</p>
+            <p style="font-size:.78rem">Run <code style="background:var(--surface2);padding:2px 6px;border-radius:4px">python train.py non_iid</code></p>
+          </div></td></tr>`;
+    } else {
+      tbody.innerHTML = [...rounds].reverse().map(r => {
+        const ge = r.global_eval;
+        const fe = r.fedavg_eval;
+        const clientCols = Array.from({length: NUM_CLIENTS}, (_, i) => {
+          const cd = r.clients && r.clients[String(i)];
+          const acc = cd && cd.final_accuracy !== null ? (cd.final_accuracy*100).toFixed(1)+'%' : '—';
+          return `<td class="td-acc">${acc}</td>`;
+        }).join('');
+        return `<tr>
+          <td class="td-round">R${r.round}</td>
+          <td class="td-loss">${ge ? ge.loss.toFixed(4) : '—'}</td>
+          <td class="td-acc">${ge ? (ge.accuracy*100).toFixed(2)+'%' : '—'}</td>
+          <td class="td-loss">${fe ? fe.loss.toFixed(4) : '—'}</td>
+          <td class="td-acc">${fe ? (fe.accuracy*100).toFixed(2)+'%' : '—'}</td>
+          ${clientCols}
+        </tr>`;
+      }).join('');
+    }
+  }
+}
+
+// Initial call + polling
+fetchAndUpdate();
+setInterval(fetchAndUpdate, 2000);
+</script>
+</body>
+</html>
