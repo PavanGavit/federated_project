@@ -1,0 +1,576 @@
+
+(venv) C:\Users\Admin\Downloads\FL-Project>
+(venv) C:\Users\Admin\Downloads\FL-Project>python train.py both
+[Model] Using device: cuda
+
+>>> Running IID Simulation <<<
+
+============================================================
+  FL-Project  |  Federated Learning Simulation
+  Distribution : IID
+  Clients      : 5
+  Rounds       : 10
+============================================================
+
+[Dataset] Loaded 780 images across 3 classes.
+[Dataset] Loaded 780 images across 3 classes.
+[Server] Partition info saved → C:\Users\Admin\Downloads\FL-Project\outputs\logs\partition_iid.json
+
+[Dataset] Loaded 780 images across 3 classes.
+[Dataset] Loaded 780 images across 3 classes.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Round 1/10
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [Client 0] Epoch 1/3 - loss: 0.6939  acc: 0.7574
+  [Client 0] Epoch 2/3 - loss: 0.5966  acc: 0.8382
+  [Client 0] Epoch 3/3 - loss: 0.5286  acc: 0.8382
+  [Client 1] Epoch 1/3 - loss: 0.8947  acc: 0.6232
+  [Client 1] Epoch 2/3 - loss: 0.8299  acc: 0.6957
+  [Client 1] Epoch 3/3 - loss: 0.8038  acc: 0.6957
+  [Client 2] Epoch 1/3 - loss: 0.5164  acc: 0.8606
+  [Client 2] Epoch 2/3 - loss: 0.4325  acc: 0.9152
+  [Client 2] Epoch 3/3 - loss: 0.3705  acc: 0.9152
+  [Client 3] Epoch 1/3 - loss: 1.1405  acc: 0.3438
+  [Client 3] Epoch 2/3 - loss: 0.8670  acc: 0.5938
+  [Client 3] Epoch 3/3 - loss: 0.8153  acc: 0.4062
+  [Client 4] Epoch 1/3 - loss: 0.7905  acc: 0.6558
+  [Client 4] Epoch 2/3 - loss: 0.7861  acc: 0.7208
+  [Client 4] Epoch 3/3 - loss: 0.7182  acc: 0.7273
+
+  [Server] FedAvg aggregation complete (round 1)
+  [Server Eval Round  1] loss=1.0823  acc=0.5613
+  ✓ New best model saved (0.5613) → C:\Users\Admin\Downloads\FL-Project\outputs\models\best_global_model.pt
+
+───────────────────────────────────────────────────────
+  [Round  1] FedAvg eval → loss=1.0123  accuracy=0.5613
+───────────────────────────────────────────────────────
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Round 2/10
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [Client 0] Epoch 1/3 - loss: 0.5607  acc: 0.8382
+  [Client 0] Epoch 2/3 - loss: 0.5730  acc: 0.8382
+  [Client 0] Epoch 3/3 - loss: 0.5296  acc: 0.8382
+  [Client 1] Epoch 1/3 - loss: 0.8037  acc: 0.6957
+  [Client 1] Epoch 2/3 - loss: 0.8358  acc: 0.6957
+  [Client 1] Epoch 3/3 - loss: 0.7968  acc: 0.6957
+  [Client 2] Epoch 1/3 - loss: 0.7868  acc: 0.6788
+  [Client 2] Epoch 2/3 - loss: 0.3475  acc: 0.9152
+  [Client 2] Epoch 3/3 - loss: 0.3348  acc: 0.9152
+  [Client 3] Epoch 1/3 - loss: 0.9786  acc: 0.5312
+  [Client 3] Epoch 2/3 - loss: 0.8102  acc: 0.5000
+  [Client 3] Epoch 3/3 - loss: 0.7576  acc: 0.4688
+  [Client 4] Epoch 1/3 - loss: 0.7422  acc: 0.7208
+  [Client 4] Epoch 2/3 - loss: 0.7093  acc: 0.7208
+  [Client 4] Epoch 3/3 - loss: 0.6954  acc: 0.7208
+
+  [Server] FedAvg aggregation complete (round 2)
+  [Server Eval Round  2] loss=1.0733  acc=0.5613
+
+───────────────────────────────────────────────────────
+  [Round  2] FedAvg eval → loss=1.0129  accuracy=0.5613
+───────────────────────────────────────────────────────
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Round 3/10
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [Client 0] Epoch 1/3 - loss: 0.5780  acc: 0.8382
+  [Client 0] Epoch 2/3 - loss: 0.5603  acc: 0.8382
+  [Client 0] Epoch 3/3 - loss: 0.5233  acc: 0.8382
+  [Client 1] Epoch 1/3 - loss: 0.8295  acc: 0.6957
+  [Client 1] Epoch 2/3 - loss: 0.7850  acc: 0.6957
+  [Client 1] Epoch 3/3 - loss: 0.7718  acc: 0.6957
+  [Client 2] Epoch 1/3 - loss: 0.7661  acc: 0.6545
+  [Client 2] Epoch 2/3 - loss: 0.3529  acc: 0.9152
+  [Client 2] Epoch 3/3 - loss: 0.3732  acc: 0.9152
+  [Client 3] Epoch 1/3 - loss: 0.9136  acc: 0.5312
+  [Client 3] Epoch 2/3 - loss: 0.8258  acc: 0.5312
+  [Client 3] Epoch 3/3 - loss: 0.7421  acc: 0.5312
+  [Client 4] Epoch 1/3 - loss: 0.7097  acc: 0.7208
+  [Client 4] Epoch 2/3 - loss: 0.6968  acc: 0.7208
+  [Client 4] Epoch 3/3 - loss: 0.6925  acc: 0.7208
+
+  [Server] FedAvg aggregation complete (round 3)
+  [Server Eval Round  3] loss=1.0093  acc=0.5613
+
+───────────────────────────────────────────────────────
+  [Round  3] FedAvg eval → loss=1.0193  accuracy=0.5613
+───────────────────────────────────────────────────────
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Round 4/10
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [Client 0] Epoch 1/3 - loss: 0.5810  acc: 0.8382
+  [Client 0] Epoch 2/3 - loss: 0.5030  acc: 0.8382
+  [Client 0] Epoch 3/3 - loss: 0.5083  acc: 0.8382
+  [Client 1] Epoch 1/3 - loss: 0.7901  acc: 0.6957
+  [Client 1] Epoch 2/3 - loss: 0.7553  acc: 0.6957
+  [Client 1] Epoch 3/3 - loss: 0.8243  acc: 0.7029
+  [Client 2] Epoch 1/3 - loss: 0.6804  acc: 0.7091
+  [Client 2] Epoch 2/3 - loss: 0.3811  acc: 0.9152
+  [Client 2] Epoch 3/3 - loss: 0.3565  acc: 0.9152
+  [Client 3] Epoch 1/3 - loss: 0.9822  acc: 0.5312
+  [Client 3] Epoch 2/3 - loss: 0.7743  acc: 0.5312
+  [Client 3] Epoch 3/3 - loss: 0.7459  acc: 0.5312
+  [Client 4] Epoch 1/3 - loss: 0.7190  acc: 0.7208
+  [Client 4] Epoch 2/3 - loss: 0.7343  acc: 0.7208
+  [Client 4] Epoch 3/3 - loss: 0.6899  acc: 0.7208
+
+  [Server] FedAvg aggregation complete (round 4)
+  [Server Eval Round  4] loss=1.0211  acc=0.5613
+
+───────────────────────────────────────────────────────
+  [Round  4] FedAvg eval → loss=1.0135  accuracy=0.5613
+───────────────────────────────────────────────────────
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Round 5/10
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [Client 0] Epoch 1/3 - loss: 0.5815  acc: 0.8382
+  [Client 0] Epoch 2/3 - loss: 0.5827  acc: 0.8382
+  [Client 0] Epoch 3/3 - loss: 0.5281  acc: 0.8382
+  [Client 1] Epoch 1/3 - loss: 0.7611  acc: 0.6957
+  [Client 1] Epoch 2/3 - loss: 0.8223  acc: 0.6957
+  [Client 1] Epoch 3/3 - loss: 0.8457  acc: 0.6957
+  [Client 2] Epoch 1/3 - loss: 0.6376  acc: 0.7394
+  [Client 2] Epoch 2/3 - loss: 0.3843  acc: 0.9152
+  [Client 2] Epoch 3/3 - loss: 0.3520  acc: 0.9152
+  [Client 3] Epoch 1/3 - loss: 0.9455  acc: 0.5312
+  [Client 3] Epoch 2/3 - loss: 0.8080  acc: 0.5000
+  [Client 3] Epoch 3/3 - loss: 0.7216  acc: 0.5000
+  [Client 4] Epoch 1/3 - loss: 0.7066  acc: 0.7208
+  [Client 4] Epoch 2/3 - loss: 0.7253  acc: 0.7208
+  [Client 4] Epoch 3/3 - loss: 0.6345  acc: 0.7208
+
+  [Server] FedAvg aggregation complete (round 5)
+  [Server Eval Round  5] loss=1.0443  acc=0.5613
+
+───────────────────────────────────────────────────────
+  [Round  5] FedAvg eval → loss=1.0208  accuracy=0.5613
+───────────────────────────────────────────────────────
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Round 6/10
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [Client 0] Epoch 1/3 - loss: 0.5647  acc: 0.8382
+  [Client 0] Epoch 2/3 - loss: 0.5260  acc: 0.8382
+  [Client 0] Epoch 3/3 - loss: 0.5074  acc: 0.8382
+  [Client 1] Epoch 1/3 - loss: 0.7933  acc: 0.6884
+  [Client 1] Epoch 2/3 - loss: 0.7925  acc: 0.6957
+  [Client 1] Epoch 3/3 - loss: 0.7682  acc: 0.6957
+  [Client 2] Epoch 1/3 - loss: 0.6788  acc: 0.7030
+  [Client 2] Epoch 2/3 - loss: 0.3851  acc: 0.9152
+  [Client 2] Epoch 3/3 - loss: 0.3311  acc: 0.9152
+  [Client 3] Epoch 1/3 - loss: 0.8926  acc: 0.5312
+  [Client 3] Epoch 2/3 - loss: 0.6809  acc: 0.5938
+  [Client 3] Epoch 3/3 - loss: 0.6838  acc: 0.5625
+  [Client 4] Epoch 1/3 - loss: 0.7301  acc: 0.7208
+  [Client 4] Epoch 2/3 - loss: 0.6717  acc: 0.7208
+  [Client 4] Epoch 3/3 - loss: 0.6895  acc: 0.7208
+
+  [Server] FedAvg aggregation complete (round 6)
+  [Server Eval Round  6] loss=1.0549  acc=0.5613
+
+───────────────────────────────────────────────────────
+  [Round  6] FedAvg eval → loss=1.0080  accuracy=0.5613
+───────────────────────────────────────────────────────
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Round 7/10
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [Client 0] Epoch 1/3 - loss: 0.5838  acc: 0.8382
+  [Client 0] Epoch 2/3 - loss: 0.5942  acc: 0.8382
+  [Client 0] Epoch 3/3 - loss: 0.5604  acc: 0.8382
+  [Client 1] Epoch 1/3 - loss: 0.8208  acc: 0.6957
+  [Client 1] Epoch 2/3 - loss: 0.7941  acc: 0.6957
+  [Client 1] Epoch 3/3 - loss: 0.7598  acc: 0.6957
+  [Client 2] Epoch 1/3 - loss: 0.6474  acc: 0.7394
+  [Client 2] Epoch 2/3 - loss: 0.3705  acc: 0.9152
+  [Client 2] Epoch 3/3 - loss: 0.3733  acc: 0.9152
+  [Client 3] Epoch 1/3 - loss: 0.9504  acc: 0.5312
+  [Client 3] Epoch 2/3 - loss: 0.8188  acc: 0.4688
+  [Client 3] Epoch 3/3 - loss: 0.6903  acc: 0.6250
+  [Client 4] Epoch 1/3 - loss: 0.7032  acc: 0.7208
+  [Client 4] Epoch 2/3 - loss: 0.7153  acc: 0.7078
+  [Client 4] Epoch 3/3 - loss: 0.7106  acc: 0.7208
+
+  [Server] FedAvg aggregation complete (round 7)
+  [Server Eval Round  7] loss=1.0077  acc=0.5613
+
+───────────────────────────────────────────────────────
+  [Round  7] FedAvg eval → loss=1.0226  accuracy=0.5613
+───────────────────────────────────────────────────────
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Round 8/10
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [Client 0] Epoch 1/3 - loss: 0.5904  acc: 0.8382
+  [Client 0] Epoch 2/3 - loss: 0.5381  acc: 0.8382
+  [Client 0] Epoch 3/3 - loss: 0.5119  acc: 0.8382
+  [Client 1] Epoch 1/3 - loss: 0.7914  acc: 0.6957
+  [Client 1] Epoch 2/3 - loss: 0.7886  acc: 0.6884
+  [Client 1] Epoch 3/3 - loss: 0.7571  acc: 0.6957
+  [Client 2] Epoch 1/3 - loss: 0.6583  acc: 0.7152
+  [Client 2] Epoch 2/3 - loss: 0.3783  acc: 0.9152
+  [Client 2] Epoch 3/3 - loss: 0.3524  acc: 0.9152
+  [Client 3] Epoch 1/3 - loss: 0.9571  acc: 0.5312
+  [Client 3] Epoch 2/3 - loss: 0.7582  acc: 0.5312
+  [Client 3] Epoch 3/3 - loss: 0.7303  acc: 0.5312
+  [Client 4] Epoch 1/3 - loss: 0.7040  acc: 0.7208
+  [Client 4] Epoch 2/3 - loss: 0.6768  acc: 0.7208
+  [Client 4] Epoch 3/3 - loss: 0.7176  acc: 0.7208
+
+  [Server] FedAvg aggregation complete (round 8)
+  [Server Eval Round  8] loss=1.0320  acc=0.4839
+
+───────────────────────────────────────────────────────
+  [Round  8] FedAvg eval → loss=0.9956  accuracy=0.5613
+───────────────────────────────────────────────────────
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Round 9/10
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [Client 0] Epoch 1/3 - loss: 0.5899  acc: 0.8382
+  [Client 0] Epoch 2/3 - loss: 0.5567  acc: 0.8382
+  [Client 0] Epoch 3/3 - loss: 0.5335  acc: 0.8382
+  [Client 1] Epoch 1/3 - loss: 0.8366  acc: 0.6957
+  [Client 1] Epoch 2/3 - loss: 0.7474  acc: 0.6957
+  [Client 1] Epoch 3/3 - loss: 0.7910  acc: 0.6812
+  [Client 2] Epoch 1/3 - loss: 0.5309  acc: 0.7697
+  [Client 2] Epoch 2/3 - loss: 0.4072  acc: 0.9152
+  [Client 2] Epoch 3/3 - loss: 0.3633  acc: 0.9152
+  [Client 3] Epoch 1/3 - loss: 0.9779  acc: 0.5312
+  [Client 3] Epoch 2/3 - loss: 0.7221  acc: 0.5312
+  [Client 3] Epoch 3/3 - loss: 0.7081  acc: 0.4375
+  [Client 4] Epoch 1/3 - loss: 0.6792  acc: 0.7208
+  [Client 4] Epoch 2/3 - loss: 0.6589  acc: 0.7208
+  [Client 4] Epoch 3/3 - loss: 0.6825  acc: 0.7143
+
+  [Server] FedAvg aggregation complete (round 9)
+  [Server Eval Round  9] loss=1.0740  acc=0.5484
+
+───────────────────────────────────────────────────────
+  [Round  9] FedAvg eval → loss=1.0123  accuracy=0.5613
+───────────────────────────────────────────────────────
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Round 10/10
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [Client 0] Epoch 1/3 - loss: 0.5437  acc: 0.8382
+  [Client 0] Epoch 2/3 - loss: 0.5166  acc: 0.8382
+  [Client 0] Epoch 3/3 - loss: 0.4941  acc: 0.8382
+  [Client 1] Epoch 1/3 - loss: 0.8171  acc: 0.6957
+  [Client 1] Epoch 2/3 - loss: 0.8126  acc: 0.6884
+  [Client 1] Epoch 3/3 - loss: 0.7602  acc: 0.6957
+  [Client 2] Epoch 1/3 - loss: 0.6119  acc: 0.7273
+  [Client 2] Epoch 2/3 - loss: 0.4754  acc: 0.9152
+  [Client 2] Epoch 3/3 - loss: 0.3580  acc: 0.9152
+  [Client 3] Epoch 1/3 - loss: 0.9434  acc: 0.5312
+  [Client 3] Epoch 2/3 - loss: 0.7513  acc: 0.5625
+  [Client 3] Epoch 3/3 - loss: 0.7049  acc: 0.5312
+  [Client 4] Epoch 1/3 - loss: 0.7231  acc: 0.7208
+  [Client 4] Epoch 2/3 - loss: 0.6781  acc: 0.7208
+  [Client 4] Epoch 3/3 - loss: 0.6562  acc: 0.7143
+
+  [Server] FedAvg aggregation complete (round 10)
+  [Server Eval Round 10] loss=1.0494  acc=0.3742
+
+───────────────────────────────────────────────────────
+  [Round 10] FedAvg eval → loss=0.9937  accuracy=0.5613
+───────────────────────────────────────────────────────
+
+============================================================
+  [Server] Simulation complete!
+  Results CSV  → C:\Users\Admin\Downloads\FL-Project\outputs\logs\fl_results_iid.csv
+  Best Acc     → 56.13%
+============================================================
+
+
+>>> Running Non-IID Simulation <<<
+
+============================================================
+  FL-Project  |  Federated Learning Simulation
+  Distribution : NON_IID
+  Clients      : 5
+  Rounds       : 10
+  Local Epochs : 3
+============================================================
+
+[Dataset] Loaded 780 images across 3 classes.
+[Dataset] Loaded 780 images across 3 classes.
+[Server] Partition info saved → C:\Users\Admin\Downloads\FL-Project\outputs\logs\partition_non_iid.json
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Round 1/10
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [Client 0] Epoch 1/3 - loss: 0.6872  acc: 0.7574
+  [Client 0] Epoch 2/3 - loss: 0.5784  acc: 0.8382
+  [Client 0] Epoch 3/3 - loss: 0.5415  acc: 0.8382
+  [Client 1] Epoch 1/3 - loss: 1.0147  acc: 0.6159
+  [Client 1] Epoch 2/3 - loss: 0.7923  acc: 0.6957
+  [Client 1] Epoch 3/3 - loss: 0.7734  acc: 0.6957
+  [Client 2] Epoch 1/3 - loss: 0.4845  acc: 0.8970
+  [Client 2] Epoch 2/3 - loss: 0.4223  acc: 0.9152
+  [Client 2] Epoch 3/3 - loss: 0.3519  acc: 0.9152
+  [Client 3] Epoch 1/3 - loss: 1.0788  acc: 0.3438
+  [Client 3] Epoch 2/3 - loss: 0.9215  acc: 0.6250
+  [Client 3] Epoch 3/3 - loss: 0.8248  acc: 0.5312
+  [Client 4] Epoch 1/3 - loss: 0.8370  acc: 0.6494
+  [Client 4] Epoch 2/3 - loss: 0.6862  acc: 0.7143
+  [Client 4] Epoch 3/3 - loss: 0.6800  acc: 0.7208
+
+  [Server] FedAvg aggregation complete (round 1)
+  [Server Eval Round  1] loss=1.1034  acc=0.1677
+  ✓ New best model saved (0.1677) → C:\Users\Admin\Downloads\FL-Project\outputs\models\best_global_model.pt
+
+───────────────────────────────────────────────────────
+  [Round  1] FedAvg eval → loss=1.0225  accuracy=0.5613
+───────────────────────────────────────────────────────
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Round 2/10
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [Client 0] Epoch 1/3 - loss: 0.5428  acc: 0.8382
+  [Client 0] Epoch 2/3 - loss: 0.5651  acc: 0.8382
+  [Client 0] Epoch 3/3 - loss: 0.5372  acc: 0.8382
+  [Client 1] Epoch 1/3 - loss: 0.8313  acc: 0.6957
+  [Client 1] Epoch 2/3 - loss: 0.8585  acc: 0.6957
+  [Client 1] Epoch 3/3 - loss: 0.7815  acc: 0.6957
+  [Client 2] Epoch 1/3 - loss: 0.7673  acc: 0.6545
+  [Client 2] Epoch 2/3 - loss: 0.4267  acc: 0.9152
+  [Client 2] Epoch 3/3 - loss: 0.3693  acc: 0.9152
+  [Client 3] Epoch 1/3 - loss: 0.9380  acc: 0.5312
+  [Client 3] Epoch 2/3 - loss: 0.7943  acc: 0.5312
+  [Client 3] Epoch 3/3 - loss: 0.7538  acc: 0.5000
+  [Client 4] Epoch 1/3 - loss: 0.7549  acc: 0.7208
+  [Client 4] Epoch 2/3 - loss: 0.7009  acc: 0.7013
+  [Client 4] Epoch 3/3 - loss: 0.6832  acc: 0.7208
+
+  [Server] FedAvg aggregation complete (round 2)
+  [Server Eval Round  2] loss=1.0964  acc=0.2516
+  ✓ New best model saved (0.2516) → C:\Users\Admin\Downloads\FL-Project\outputs\models\best_global_model.pt
+
+───────────────────────────────────────────────────────
+  [Round  2] FedAvg eval → loss=1.0028  accuracy=0.5613
+───────────────────────────────────────────────────────
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Round 3/10
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [Client 0] Epoch 1/3 - loss: 0.6159  acc: 0.8382
+  [Client 0] Epoch 2/3 - loss: 0.5773  acc: 0.8382
+  [Client 0] Epoch 3/3 - loss: 0.5182  acc: 0.8382
+  [Client 1] Epoch 1/3 - loss: 0.8536  acc: 0.6957
+  [Client 1] Epoch 2/3 - loss: 0.7952  acc: 0.7029
+  [Client 1] Epoch 3/3 - loss: 0.7957  acc: 0.6957
+  [Client 2] Epoch 1/3 - loss: 0.6838  acc: 0.6909
+  [Client 2] Epoch 2/3 - loss: 0.3758  acc: 0.9152
+  [Client 2] Epoch 3/3 - loss: 0.4487  acc: 0.9152
+  [Client 3] Epoch 1/3 - loss: 1.0382  acc: 0.5312
+  [Client 3] Epoch 2/3 - loss: 0.7982  acc: 0.4688
+  [Client 3] Epoch 3/3 - loss: 0.7841  acc: 0.6250
+  [Client 4] Epoch 1/3 - loss: 0.7923  acc: 0.7208
+  [Client 4] Epoch 2/3 - loss: 0.6655  acc: 0.7273
+  [Client 4] Epoch 3/3 - loss: 0.6893  acc: 0.7208
+
+  [Server] FedAvg aggregation complete (round 3)
+  [Server Eval Round  3] loss=1.0841  acc=0.5548
+  ✓ New best model saved (0.5548) → C:\Users\Admin\Downloads\FL-Project\outputs\models\best_global_model.pt
+
+───────────────────────────────────────────────────────
+  [Round  3] FedAvg eval → loss=1.0049  accuracy=0.5613
+───────────────────────────────────────────────────────
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Round 4/10
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [Client 0] Epoch 1/3 - loss: 0.5641  acc: 0.8382
+  [Client 0] Epoch 2/3 - loss: 0.5463  acc: 0.8382
+  [Client 0] Epoch 3/3 - loss: 0.5121  acc: 0.8382
+  [Client 1] Epoch 1/3 - loss: 0.8532  acc: 0.6957
+  [Client 1] Epoch 2/3 - loss: 0.7976  acc: 0.6884
+  [Client 1] Epoch 3/3 - loss: 0.7507  acc: 0.6957
+  [Client 2] Epoch 1/3 - loss: 0.6733  acc: 0.6848
+  [Client 2] Epoch 2/3 - loss: 0.3885  acc: 0.9152
+  [Client 2] Epoch 3/3 - loss: 0.3322  acc: 0.9152
+  [Client 3] Epoch 1/3 - loss: 1.0733  acc: 0.5312
+  [Client 3] Epoch 2/3 - loss: 0.8202  acc: 0.5312
+  [Client 3] Epoch 3/3 - loss: 0.7657  acc: 0.5625
+  [Client 4] Epoch 1/3 - loss: 0.7805  acc: 0.7208
+  [Client 4] Epoch 2/3 - loss: 0.6744  acc: 0.7143
+  [Client 4] Epoch 3/3 - loss: 0.7072  acc: 0.7208
+
+  [Server] FedAvg aggregation complete (round 4)
+  [Server Eval Round  4] loss=1.0552  acc=0.5613
+  ✓ New best model saved (0.5613) → C:\Users\Admin\Downloads\FL-Project\outputs\models\best_global_model.pt
+
+───────────────────────────────────────────────────────
+  [Round  4] FedAvg eval → loss=1.0039  accuracy=0.5613
+───────────────────────────────────────────────────────
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Round 5/10
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [Client 0] Epoch 1/3 - loss: 0.5453  acc: 0.8382
+  [Client 0] Epoch 2/3 - loss: 0.5906  acc: 0.8382
+  [Client 0] Epoch 3/3 - loss: 0.5835  acc: 0.8382
+  [Client 1] Epoch 1/3 - loss: 0.8251  acc: 0.6957
+  [Client 1] Epoch 2/3 - loss: 0.7926  acc: 0.6884
+  [Client 1] Epoch 3/3 - loss: 0.8098  acc: 0.6884
+  [Client 2] Epoch 1/3 - loss: 0.7029  acc: 0.6970
+  [Client 2] Epoch 2/3 - loss: 0.3567  acc: 0.9152
+  [Client 2] Epoch 3/3 - loss: 0.3319  acc: 0.9152
+  [Client 3] Epoch 1/3 - loss: 0.8787  acc: 0.5625
+  [Client 3] Epoch 2/3 - loss: 0.7412  acc: 0.5625
+  [Client 3] Epoch 3/3 - loss: 0.7343  acc: 0.5625
+  [Client 4] Epoch 1/3 - loss: 0.7002  acc: 0.7208
+  [Client 4] Epoch 2/3 - loss: 0.6896  acc: 0.6948
+  [Client 4] Epoch 3/3 - loss: 0.7131  acc: 0.7208
+
+  [Server] FedAvg aggregation complete (round 5)
+  [Server Eval Round  5] loss=1.0257  acc=0.5613
+
+───────────────────────────────────────────────────────
+  [Round  5] FedAvg eval → loss=1.0014  accuracy=0.5613
+───────────────────────────────────────────────────────
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Round 6/10
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [Client 0] Epoch 1/3 - loss: 0.5608  acc: 0.8382
+  [Client 0] Epoch 2/3 - loss: 0.5101  acc: 0.8382
+  [Client 0] Epoch 3/3 - loss: 0.5040  acc: 0.8382
+  [Client 1] Epoch 1/3 - loss: 0.8284  acc: 0.7029
+  [Client 1] Epoch 2/3 - loss: 0.7993  acc: 0.7029
+  [Client 1] Epoch 3/3 - loss: 0.8210  acc: 0.6957
+  [Client 2] Epoch 1/3 - loss: 0.6874  acc: 0.6909
+  [Client 2] Epoch 2/3 - loss: 0.3263  acc: 0.9152
+  [Client 2] Epoch 3/3 - loss: 0.3354  acc: 0.9152
+  [Client 3] Epoch 1/3 - loss: 1.0346  acc: 0.5312
+  [Client 3] Epoch 2/3 - loss: 0.8081  acc: 0.5312
+  [Client 3] Epoch 3/3 - loss: 0.7036  acc: 0.6250
+  [Client 4] Epoch 1/3 - loss: 0.7539  acc: 0.7208
+  [Client 4] Epoch 2/3 - loss: 0.6811  acc: 0.7208
+  [Client 4] Epoch 3/3 - loss: 0.7069  acc: 0.7208
+
+  [Server] FedAvg aggregation complete (round 6)
+  [Server Eval Round  6] loss=0.9774  acc=0.5613
+
+───────────────────────────────────────────────────────
+  [Round  6] FedAvg eval → loss=1.2530  accuracy=0.5613
+───────────────────────────────────────────────────────
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Round 7/10
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [Client 0] Epoch 1/3 - loss: 0.6103  acc: 0.8382
+  [Client 0] Epoch 2/3 - loss: 0.5308  acc: 0.8382
+  [Client 0] Epoch 3/3 - loss: 0.5026  acc: 0.8382
+  [Client 1] Epoch 1/3 - loss: 0.8285  acc: 0.6884
+  [Client 1] Epoch 2/3 - loss: 0.7821  acc: 0.6957
+  [Client 1] Epoch 3/3 - loss: 0.7831  acc: 0.7029
+  [Client 2] Epoch 1/3 - loss: 0.7065  acc: 0.7030
+  [Client 2] Epoch 2/3 - loss: 0.3471  acc: 0.9152
+  [Client 2] Epoch 3/3 - loss: 0.3549  acc: 0.9152
+  [Client 3] Epoch 1/3 - loss: 0.9606  acc: 0.5312
+  [Client 3] Epoch 2/3 - loss: 0.7998  acc: 0.5312
+  [Client 3] Epoch 3/3 - loss: 0.7019  acc: 0.6250
+  [Client 4] Epoch 1/3 - loss: 0.7535  acc: 0.7078
+  [Client 4] Epoch 2/3 - loss: 0.6846  acc: 0.7208
+  [Client 4] Epoch 3/3 - loss: 0.6706  acc: 0.7208
+
+  [Server] FedAvg aggregation complete (round 7)
+  [Server Eval Round  7] loss=1.3173  acc=0.5613
+
+───────────────────────────────────────────────────────
+  [Round  7] FedAvg eval → loss=0.9978  accuracy=0.5613
+───────────────────────────────────────────────────────
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Round 8/10
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [Client 0] Epoch 1/3 - loss: 0.5009  acc: 0.8382
+  [Client 0] Epoch 2/3 - loss: 0.5710  acc: 0.8382
+  [Client 0] Epoch 3/3 - loss: 0.5162  acc: 0.8382
+  [Client 1] Epoch 1/3 - loss: 0.8189  acc: 0.6957
+  [Client 1] Epoch 2/3 - loss: 0.7473  acc: 0.6884
+  [Client 1] Epoch 3/3 - loss: 0.7820  acc: 0.6957
+  [Client 2] Epoch 1/3 - loss: 0.5967  acc: 0.7273
+  [Client 2] Epoch 2/3 - loss: 0.3901  acc: 0.9152
+  [Client 2] Epoch 3/3 - loss: 0.3512  acc: 0.9152
+  [Client 3] Epoch 1/3 - loss: 0.9787  acc: 0.5625
+  [Client 3] Epoch 2/3 - loss: 0.7904  acc: 0.5625
+  [Client 3] Epoch 3/3 - loss: 0.7289  acc: 0.6875
+  [Client 4] Epoch 1/3 - loss: 0.7058  acc: 0.7208
+  [Client 4] Epoch 2/3 - loss: 0.7007  acc: 0.7208
+  [Client 4] Epoch 3/3 - loss: 0.6502  acc: 0.7208
+
+  [Server] FedAvg aggregation complete (round 8)
+  [Server Eval Round  8] loss=1.1138  acc=0.5613
+
+───────────────────────────────────────────────────────
+  [Round  8] FedAvg eval → loss=1.0502  accuracy=0.5613
+───────────────────────────────────────────────────────
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Round 9/10
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [Client 0] Epoch 1/3 - loss: 0.5299  acc: 0.8382
+  [Client 0] Epoch 2/3 - loss: 0.5204  acc: 0.8382
+  [Client 0] Epoch 3/3 - loss: 0.5180  acc: 0.8382
+  [Client 1] Epoch 1/3 - loss: 0.8209  acc: 0.6957
+  [Client 1] Epoch 2/3 - loss: 0.7606  acc: 0.7101
+  [Client 1] Epoch 3/3 - loss: 0.7662  acc: 0.6739
+  [Client 2] Epoch 1/3 - loss: 0.6453  acc: 0.7212
+  [Client 2] Epoch 2/3 - loss: 0.3914  acc: 0.9152
+  [Client 2] Epoch 3/3 - loss: 0.3610  acc: 0.9152
+  [Client 3] Epoch 1/3 - loss: 0.9026  acc: 0.5312
+  [Client 3] Epoch 2/3 - loss: 0.8104  acc: 0.6562
+  [Client 3] Epoch 3/3 - loss: 0.7387  acc: 0.5000
+  [Client 4] Epoch 1/3 - loss: 0.7315  acc: 0.7208
+  [Client 4] Epoch 2/3 - loss: 0.7011  acc: 0.7208
+  [Client 4] Epoch 3/3 - loss: 0.7487  acc: 0.7208
+
+  [Server] FedAvg aggregation complete (round 9)
+  [Server Eval Round  9] loss=1.9404  acc=0.5613
+
+───────────────────────────────────────────────────────
+  [Round  9] FedAvg eval → loss=0.9851  accuracy=0.5613
+───────────────────────────────────────────────────────
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Round 10/10
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [Client 0] Epoch 1/3 - loss: 0.5825  acc: 0.8382
+  [Client 0] Epoch 2/3 - loss: 0.5712  acc: 0.8382
+  [Client 0] Epoch 3/3 - loss: 0.4908  acc: 0.8382
+  [Client 1] Epoch 1/3 - loss: 0.8069  acc: 0.6884
+  [Client 1] Epoch 2/3 - loss: 0.8255  acc: 0.6739
+  [Client 1] Epoch 3/3 - loss: 0.7696  acc: 0.7029
+  [Client 2] Epoch 1/3 - loss: 0.6307  acc: 0.7515
+  [Client 2] Epoch 2/3 - loss: 0.3187  acc: 0.9152
+  [Client 2] Epoch 3/3 - loss: 0.3055  acc: 0.9152
+  [Client 3] Epoch 1/3 - loss: 0.9402  acc: 0.5000
+  [Client 3] Epoch 2/3 - loss: 0.7522  acc: 0.6250
+  [Client 3] Epoch 3/3 - loss: 0.6520  acc: 0.6562
+  [Client 4] Epoch 1/3 - loss: 0.7848  acc: 0.7078
+  [Client 4] Epoch 2/3 - loss: 0.6761  acc: 0.7273
+  [Client 4] Epoch 3/3 - loss: 0.7010  acc: 0.7208
+
+  [Server] FedAvg aggregation complete (round 10)
+  [Server Eval Round 10] loss=2.0389  acc=0.5613
+
+───────────────────────────────────────────────────────
+  [Round 10] FedAvg eval → loss=1.0145  accuracy=0.5613
+───────────────────────────────────────────────────────
+
+============================================================
+  [Server] Simulation complete!
+  Results CSV  → C:\Users\Admin\Downloads\FL-Project\outputs\logs\fl_results_non_iid.csv
+  Best Acc     → 56.13%
+============================================================
+
+
+(venv) C:\Users\Admin\Downloads\FL-Project>
