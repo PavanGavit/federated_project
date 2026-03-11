@@ -35,11 +35,7 @@ logs/
 # ===============================
 # Dataset / Large Files
 # ===============================
-data/
-datasets/
-*.csv
-*.tsv
-*.jsonl
+
 
 # (remove above lines if dataset must be tracked)
 
